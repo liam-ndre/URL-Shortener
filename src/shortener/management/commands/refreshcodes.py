@@ -5,8 +5,8 @@ from shortener.models import KirrURL
 class Command(BaseCommand):
     help = 'Refreshes all KirrURL shortcodes'
 
-    # def add_arguments(self, parser):
-    #     parser.add_argument('poll_ids', nargs='+', type=int)
+    def add_arguments(self, parser):
+        parser.add_argument('--items', type=int)
     
     def handle(self, *args, **options):
-        return KirrURL.objects.refresh_shortcodes()
+        return KirrURL.objects.refresh_shortcodes(items=options['items'])
