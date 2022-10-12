@@ -1,10 +1,14 @@
+from django.conf import settings
 from django.db import models
+
+from kirr.settings import SHORTCODE_MAX
 
 # Create your models here.
 
 from .utils import code_generator, create_shortcode
 
 
+SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)
 class KirrURLManager(models.Manager):
     def all(self, *args, **kwargs):
         qs_main = super(KirrURLManager, self).all(*args, **kwargs)
@@ -25,7 +29,7 @@ class KirrURLManager(models.Manager):
 
 class KirrURL(models.Model):
     url = models.CharField(max_length=220, )
-    shortcode = models.CharField(max_length=15, unique=True, blank=True)
+    shortcode = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
